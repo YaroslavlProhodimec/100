@@ -30,18 +30,22 @@ debugger
           <div className="app-wrapper-content">
               <Route path="/dialogs/"
                      render={() =>
-                         <Dialogs dialogs={props.state.dialogs}
-                                  messages={props.state.messages}
-                                  newMessageText={props.state.newMessageText}
-                                  pushMessage={props.pushMessage}
-                                  updateNewMessageText={props.updateNewMessageText}/> } />
+                         <Dialogs
+                             store={props.store}
+                             // dialogs={props.state.dialogs}
+                             //      messages={props.state.messages}
+                             //      newMessageBody={props.state.newMessageBody}
+                                  // pushMessage={props.pushMessage}
+                                  // updateNewMessageText={props.updateNewMessageText}
+                         />
+              } />
               <Route path='/profile'
                      render={() =>
-                         <Profile posts={props.state.posts}
-                                    newPostsText={props.state.newPostsText}
+                         <Profile store={props.store}
+                                    // newPostsText={props.state.newPostsText}
                                   // updateNewPostText={props.updateNewPostText}
                                   // pushPost={props.pushPost}
-                             dispatch = {props.dispatch}
+
 
               />}/>
 

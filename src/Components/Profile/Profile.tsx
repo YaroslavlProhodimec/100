@@ -14,9 +14,7 @@ debugger
     return (
         <div >
             <Profileinfo />
-            <MyPosts posts={props.posts}
-                     newPostsText={props.newPostsText}
-                     dispatch={props.dispatch} />
+            <MyPosts store={props.store} />
         </div>
     );//newPostText={props.profilePage.newPost} cоздали и протащили через пропсы прописывали их в app.js потом profile.jsx
 };

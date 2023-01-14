@@ -2,32 +2,39 @@ import s from "./Dialogs.module.css"
 import * as React from "react"
 import DialogsItem from "./DialogsItem/DialogsItem";
  import Message  from "./Message/Message";
-import {DialogsType, MessageType} from "../../redux/state";
+import {
+    addPostCreator,
+    DialogsType,
+    MessageType,
+    SendMessageCreator,
+    updateNewMessageBodyCreator
+} from "../../redux/state";
 import {FC} from "react";
 
 
 
 function Dialogs (props:any)   {
     debugger
-   let dialogsElement = props.dialogs.map((dialog: DialogsType) => <DialogsItem  id={dialog.id} name={dialog.name}  />)
+    let state = props.store.getState()
+   let dialogsElement = state.dialogs.map((dialog: DialogsType) => <DialogsItem  id={dialog.id} name={dialog.name}  />)
 
 
-    let messagesElement = props.messages?.map((m: MessageType) => <Message message={m.message}  />)
+    let messagesElement = state.messages?.map((m: MessageType) => <Message message={m.message}  />)
+    let newMessageBody = state.newMessageBody
 
-    let  newMessageRef = React.createRef<HTMLTextAreaElement>()
+    // let  newMessageRef = React.createRef<HTMLTextAreaElement>()
 
-    let addPostSms = () => {
+    let onSendMessageClick = () => {
 
-        props.pushMessage();
+        props.store.dispatch(SendMessageCreator());
 
     }
-    let   onMessageChange = () => {
-        if (newMessageRef.current) {
-            let textsms = newMessageRef.current.value;
-            props.updateNewMessageText(textsms)
+    let   onNewMessageChange = (e:any) => {
+    let body = e.target.value;
+    props.store.dispatch(updateNewMessageBodyCreator(body))
 
         }
-    }
+
     return (
         <div className={s.wrapper}>
 
@@ -40,13 +47,13 @@ function Dialogs (props:any)   {
 
             </div>
             <div className={s.flex}>
-            <textarea ref={newMessageRef}
-                      onChange={onMessageChange}
-                      value={props.newMessageText}
+            <textarea
+                      onChange={onNewMessageChange}
+                      value={newMessageBody}
                       className={s.text} ></textarea>
             <button role="button"
                     className={s.button}
-                    onClick={addPostSms}>
+                    onClick={onSendMessageClick}>
                 AddPost</button>
             </div>
             <div className={s.message}>

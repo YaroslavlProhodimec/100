@@ -1,3 +1,8 @@
+const ADD_POST = 'ADD_POST';
+const UPDATE_NEW_POST_TEXT = 'UPDATE_NEW_POST_TEXT';
+
+const UPDATE_NEW_MESSAGE_BODY = 'UPDATE_NEW_MESSAGE_BODY';
+const SEND_MASSAGE = 'SEND_MESSAGE';
 
 export type PostsType = {
     id: number
@@ -19,7 +24,7 @@ export type StateType = {
     posts: PostsType[]
     newPostsText:string | number | readonly string[] | undefined
     messages: MessageType[]
-    newMessageText:string | number | readonly string[] | undefined
+    newMessageBody:string | number | readonly string[] | undefined
     dialogs:DialogsType[]
 
 
@@ -32,8 +37,8 @@ export type StoreType = {
     _callSubscriber:(props:any)=>void
     // pushPost:(postMessage:string)=>void
     // updateNewPostText:(newText:string | number | readonly string[] | undefined)=>void
-    pushMessage:(addMes:string)=>void
-    updateNewMessageText:(newTextSMS:string | number | readonly string[] | undefined)=>void
+    // pushMessage:(addMes:string)=>void
+    // updateNewMessageBody:(newTextSMS:string | number | readonly string[] | undefined)=>void
     subscriber: (store: (store: StoreType) => void) => void
     dispatch: { bind: (arg0: StoreType) => any }
 }
@@ -55,7 +60,7 @@ let store: StoreType = {
             {id: 5, message: 'You stupid bitch!!!!'},
 
         ],
-        newMessageText: 'kamasutra',
+        newMessageBody: 'kamasutra',
         dialogs: [
             {id: 1, name: 'Dimych'},
             {id: 2, name: 'Andrew'},
@@ -80,19 +85,19 @@ let store: StoreType = {
 
 
 
-    pushMessage ()  {
-        let newMessage = {
-            id:6,
-            message:store._state.newMessageText
-        }
-        this._state.messages.push(newMessage as MessageType)
-        this._state.newMessageText=""
-        this._callSubscriber(this._state)
-    },
-    updateNewMessageText  (newTextSMS:string | number | readonly string[] | undefined ) {
-        this._state.newMessageText=newTextSMS;
-        this._callSubscriber(this._state)
-    },
+    // pushMessage ()  {
+    //     let newMessage = {
+    //         id:6,
+    //         message:store._state.newMessageText
+    //     }
+    //     this._state.messages.push(newMessage as MessageType)
+    //     this._state.newMessageText=""
+    //     this._callSubscriber(this._state)
+    // },
+    // updateNewMessageText  (newTextSMS:string | number | readonly string[] | undefined ) {
+    //     this._state.newMessageText=newTextSMS;
+    //     this._callSubscriber(this._state)
+    // },
 
 
     // pushPost  ()  {
@@ -110,28 +115,40 @@ let store: StoreType = {
     // },
     dispatch(action:any) {
         debugger
-        if(action.type === 'ADD-POST') {
-            let newPost = {id:5,
-                message:this._state.newPostsText,
-                likesCount:0
-            }
-            this._state.posts.push(newPost as PostsType)
-            this._state.newPostsText=" ";
+        if (action.type === 'UPDATE_NEW_POST_TEXT') {
+            this._state.newPostsText = action.text;
             this._callSubscriber(this._state)
         }
-         else if (action.type === 'UPDATE-NEW-POST-TEXT') {
-             debugger
-            this._state.newPostsText = action.newText;
+       else if(action.type === 'ADD_POST') {
+            let text = this._state.newPostsText
+            this._state.newPostsText = '';
+            this._state.posts.push({likesCount: 0, id: 3, message: text} as PostsType)
+
+            this._callSubscriber(this._state)
+        }
+        else if(action.type === 'UPDATE_NEW_MESSAGE_BODY'){
+            this._state.newMessageBody = action.body
+            this._callSubscriber(this._state)
+        }
+        else if(action.type === 'SEND_MESSAGE'){
+            let body = this._state.newMessageBody ;
+            this._state.newMessageBody = '';
+
+            
+            // @ts-ignore
+            this._state.messages.push({id:6, message:body});
             this._callSubscriber(this._state)
         }
 }
 }
 
 
+export let addPostCreator = () => ({type: ADD_POST})
+export let updateNewPostTextCreator = (text: string) => ({type: UPDATE_NEW_POST_TEXT ,text: text})
+
+export let SendMessageCreator = () => ({type:SEND_MASSAGE })
+export let updateNewMessageBodyCreator = (body: string) => ({type: UPDATE_NEW_MESSAGE_BODY ,body: body})
 
 
 
-
-
-
-export default store;
+export default store

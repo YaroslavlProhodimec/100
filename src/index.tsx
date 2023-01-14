@@ -10,12 +10,16 @@ import React from "react";
     ReactDOM.render(
         <BrowserRouter>
             <App state={store.getState()}
-                 // pushPost={store.pushPost.bind(store)}
-                 //
-                 // updateNewPostText={store.updateNewPostText.bind(store)}
-                dispatch ={store.dispatch.bind(store)}
-                 pushMessage={store.pushMessage.bind(store)}
-                 updateNewMessageText={store.updateNewMessageText.bind(store)}/>
+                 dispatch ={store.dispatch.bind(store)}
+            store={store}
+            />
+                 {/*// pushPost={store.pushPost.bind(store)}*/}
+                 {/*//*/}
+                 {/*// updateNewPostText={store.updateNewPostText.bind(store)}*/}
+
+                 {/*// pushMessage={store.pushMessage.bind(store)}*/}
+                 {/*// updateNewMessageText={store.updateNewMessageBody.bind(store)}*/}
+
         </BrowserRouter> ,
         document.getElementById('root')
     );
