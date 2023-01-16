@@ -4,9 +4,10 @@ import Header from "./Components/Header/Header";
 import Navbar from "./Components/Navbar/Navbar";
 import Profile from "./Components/Profile/Profile";
 import Dialogs from "./Components/Dialogs/Dialogs";
-import { Route} from "react-router-dom";
+import {Route} from "react-router-dom";
 
-import {StateType} from "./redux/state";
+import {StateType} from "./redux/store";
+import DialogsContainer from "./Components/Dialogs/DialogsContainer";
 
 //
 // type AppPropsType = {
@@ -18,40 +19,27 @@ import {StateType} from "./redux/state";
 //     updateNewMessageText:(newTextSMS:string)=>void
 // }
 
-const  App =  (props:any) => {
+const App = (props: any) => {
 
-debugger
-
-
-  return (
-      <div className="app-wrapper">
-          <Header />
-          <Navbar />
-          <div className="app-wrapper-content">
-              <Route path="/dialogs/"
-                     render={() =>
-                         <Dialogs
-                             store={props.store}
-                             // dialogs={props.state.dialogs}
-                             //      messages={props.state.messages}
-                             //      newMessageBody={props.state.newMessageBody}
-                                  // pushMessage={props.pushMessage}
-                                  // updateNewMessageText={props.updateNewMessageText}
-                         />
-              } />
-              <Route path='/profile'
-                     render={() =>
-                         <Profile store={props.store}
-                                    // newPostsText={props.state.newPostsText}
-                                  // updateNewPostText={props.updateNewPostText}
-                                  // pushPost={props.pushPost}
+    debugger
 
 
-              />}/>
+    return (
+        <div className="app-wrapper">
+            <Header/>
+            <Navbar/>
+            <div className="app-wrapper-content">
+                <Route path="/dialogs/"
+                       render={() =>
+                           <DialogsContainer/>
+                       }/>
+                <Route path='/profile'
+                       render={() =>
+                           <Profile/>}/>
 
-    </div>
-      </div>
-  );
+            </div>
+        </div>
+    );
 }
 
 export default App;

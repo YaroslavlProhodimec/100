@@ -2,30 +2,28 @@ import ReactDOM from "react-dom";
 import {BrowserRouter} from "react-router-dom";
 import App from "./App";
 import "./index.css";
-import store, {StoreType} from "./redux/state";
+import store from "./redux/redux-store";
 import React from "react";
 
+import {Provider} from "react-redux";
+import {EmptyObject} from "redux";
 
-  let rerenderEntireTree = (props:any) => {
+let rerenderEntireTree = (state: EmptyObject & { dialogsPage: { newMessageBody: string; messages: ({ id: number; message: string } | { id: number; message: string } | { id: number; message: string } | { id: number; message: string } | { id: number; message: string })[]; dialogs: ({ name: string; id: number } | { name: string; id: number } | { name: string; id: number } | { name: string; id: number } | { name: string; id: number } | { name: string; id: number })[] }; profilePage: { newPostsText: string; posts: ({ likesCount: number; id: number; message: string } | { likesCount: number; id: number; message: string })[] } }) => {
+
     ReactDOM.render(
         <BrowserRouter>
-            <App state={store.getState()}
-                 dispatch ={store.dispatch.bind(store)}
-            store={store}
-            />
-                 {/*// pushPost={store.pushPost.bind(store)}*/}
-                 {/*//*/}
-                 {/*// updateNewPostText={store.updateNewPostText.bind(store)}*/}
-
-                 {/*// pushMessage={store.pushMessage.bind(store)}*/}
-                 {/*// updateNewMessageText={store.updateNewMessageBody.bind(store)}*/}
-
-        </BrowserRouter> ,
+            <Provider store={store} >
+                <App/>
+            </Provider>
+        </BrowserRouter>,
         document.getElementById('root')
     );
 }
 rerenderEntireTree(store.getState());
-store.subscriber(rerenderEntireTree)
+store.subscribe(() => {
+    let state = store.getState()
+    rerenderEntireTree(store.getState());
+})
 // let rerenderEntireTree = () => {
 // ReactDOM.render(
 //     <BrowserRouter>

@@ -3,35 +3,30 @@ import * as React from "react"
 import DialogsItem from "./DialogsItem/DialogsItem";
  import Message  from "./Message/Message";
 import {
-    addPostCreator,
+
     DialogsType,
     MessageType,
-    SendMessageCreator,
-    updateNewMessageBodyCreator
-} from "../../redux/state";
-import {FC} from "react";
+
+} from "../../redux/store";
 
 
 
-function Dialogs (props:any)   {
+
+const Dialogs =  (props:any)  => {
     debugger
-    let state = props.store.getState()
-   let dialogsElement = state.dialogs.map((dialog: DialogsType) => <DialogsItem  id={dialog.id} name={dialog.name}  />)
+     let state = props.dialogsPage
 
-
-    let messagesElement = state.messages?.map((m: MessageType) => <Message message={m.message}  />)
+   let dialogsElement = state.dialogs.map((dialog: any) => <DialogsItem  id={dialog.id} name={dialog.name}  />)
+    let messagesElement = state.messages.map((m: any) => <Message message={m.message}  />)
     let newMessageBody = state.newMessageBody
-
-    // let  newMessageRef = React.createRef<HTMLTextAreaElement>()
-
     let onSendMessageClick = () => {
 
-        props.store.dispatch(SendMessageCreator());
+        props.sendMessage()
 
     }
-    let   onNewMessageChange = (e:any) => {
-    let body = e.target.value;
-    props.store.dispatch(updateNewMessageBodyCreator(body))
+    let   onNewMessageChange = (e: { target: { value: any; }; }) => {
+        let body = e.target.value;
+    props.updateNewMessageBody(body)
 
         }
 
@@ -49,7 +44,7 @@ function Dialogs (props:any)   {
             <div className={s.flex}>
             <textarea
                       onChange={onNewMessageChange}
-                      value={newMessageBody}
+                      value={state.newMessageBody}
                       className={s.text} ></textarea>
             <button role="button"
                     className={s.button}

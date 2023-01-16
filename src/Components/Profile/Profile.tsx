@@ -1,7 +1,7 @@
 
-import MyPosts  from "./MyPost/MyPosts";
 import Profileinfo from "./Profileinfo/Profileinfo";
-import {PostsType} from "../../redux/state";
+import {PostsType} from "../../redux/store";
+import MyPostsContainer from "./MyPost/MyPostsContainer";
 
 //
 // export type ProfileTypeProps = {
@@ -14,7 +14,8 @@ debugger
     return (
         <div >
             <Profileinfo />
-            <MyPosts store={props.store} />
+
+            <MyPostsContainer   />
         </div>
     );//newPostText={props.profilePage.newPost} cоздали и протащили через пропсы прописывали их в app.js потом profile.jsx
 };
