@@ -20,10 +20,10 @@ let rerenderEntireTree = (state: EmptyObject & { dialogsPage: { newMessageBody: 
     );
 }
 rerenderEntireTree(store.getState());
-store.subscribe(() => {
-    let state = store.getState()
-    rerenderEntireTree(store.getState());
-})
+// store.subscribe(() => {
+//     let state = store.getState()
+//     rerenderEntireTree(store.getState());
+// })
 // let rerenderEntireTree = () => {
 // ReactDOM.render(
 //     <BrowserRouter>

@@ -2,11 +2,13 @@ import {combineReducers, createStore} from "redux"
 import profileReducer from "./profile-reducer";
 import dialogsReduser from "./dialogs-reduser";
 import {StoreType} from "./store";
+import usersReducer from "./users-reduser";
 
 
 let redusers = combineReducers({
     profilePage:profileReducer,
-    dialogsPage:dialogsReduser
+    dialogsPage:dialogsReduser,
+    usersPage:usersReducer,
 });
 
 type PropsType ={

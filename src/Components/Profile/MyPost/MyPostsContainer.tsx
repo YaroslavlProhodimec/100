@@ -53,7 +53,7 @@ let mapStateToProps = (state: any) => {
 }
 let mapDispatchToProps = (dispatch: any) => {
     return {
-
+// СНИЗУ ДИСПАТЧИМ ACTION КОТОРЫЫЙ КАК МИНИМУМ ДОЛЖЕН СОДЕРЖАТЬ TYPE
         addPost: () => {
             dispatch(addPostCreator())
         },

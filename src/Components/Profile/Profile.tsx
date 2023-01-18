@@ -1,6 +1,4 @@
-
 import Profileinfo from "./Profileinfo/Profileinfo";
-import {PostsType} from "../../redux/store";
 import MyPostsContainer from "./MyPost/MyPostsContainer";
 
 //
