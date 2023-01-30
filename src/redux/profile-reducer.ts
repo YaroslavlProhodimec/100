@@ -1,6 +1,9 @@
-import {PostsType} from "./store";
+import {profileAPI, userAPI} from "../api/api";
+
 const ADD_POST = 'ADD_POST';
 const UPDATE_NEW_POST_TEXT = 'UPDATE_NEW_POST_TEXT';
+const SET_USER_PROFILE = 'SET_USER_PROFILE';
+const SET_STATUS = 'SET_STATUS'
 
 
 let initialState = {
@@ -8,32 +11,69 @@ let initialState = {
         {id: 1, message: 'Hi,how are you?', likesCount: 12},
         {id: 2, message: 'My first project?', likesCount: 11},
 
-    ], newPostsText: 'kamasutra',
+     ],
+    // newPostsText: 'kamasutra',
+    profile: null,
+    status: ""
+
 }
- const profileReducer = (state=initialState,action: { type: string; text: string; }) => {
-     debugger
-        if (action.type === ADD_POST) {
-            let text = state.newPostsText
-           return  {...state,
-                newPostsText : '',
-                posts: [...state.posts, {likesCount: 0, id: 3, message: text}]
-            }
-        }
+const profileReducer = (state = initialState, action: any) => {
 
-
-        else if(action.type === UPDATE_NEW_POST_TEXT) {
+    switch (action.type) {
+        case ADD_POST: {
+            let newPost =  action.updateNewPostText
             return {
                 ...state,
-                newPostsText: action.text
+                posts: [...state.posts, {id: 2, message: newPost, likesCount: 11}],
+
             }
-
-
+         }
+        // case UPDATE_NEW_POST_TEXT: {
+        //     return {
+        //         ...state,
+        //         newPostsText: action.text
+        //     }
+        // }
+        case SET_USER_PROFILE: {
+            return {
+                ...state,
+                profile: action.profile
+            }
         }
-
-
-    return state;
+        case SET_STATUS: {
+            return {
+                ...state,
+                status: action.status
+            }
+        }
+default:
+            return state;
+    }
+}
+    export let addPostCreator = (updateNewPostText:any) => ({type: 'ADD_POST',updateNewPostText})
+ let setUserProfile = (profile: any) => ({type: SET_USER_PROFILE, profile})
+let setStatus = (status:any) => ({type: SET_STATUS, status})
+export let getUserProfile = (userId: any) => (dispatch:any) => {
+        userAPI.getProfile(userId).then((response) => {
+            dispatch(setUserProfile(response.data));
+        })
 }
 
-export let addPostCreator = () => ({type: 'ADD_POST'})
-export let updateNewPostTextCreator = (text: string) => ({type: 'UPDATE_NEW_POST_TEXT' ,text: text})
-export default profileReducer
+export let getUserStatus = (userId: any) => (dispatch:any) => {
+    profileAPI.getStatus(userId).then((response) => {
+        dispatch(setStatus(response.data));
+    })
+}
+export let updateStatus = (status: any) => (dispatch:any) => {
+    profileAPI.updateStatus(status).then((response) => {
+        if(response.data.resultCode === 0) {
+            dispatch(setStatus(response.data));
+        }
+    })
+}
+    // export let updateNewPostTextCreator = (text: string) => ({type: 'UPDATE_NEW_POST_TEXT', text: text})
+
+
+
+
+    export default profileReducer

@@ -10,6 +10,12 @@ import {EmptyObject} from "redux";
 
 let rerenderEntireTree = (state: EmptyObject & { dialogsPage: { newMessageBody: string; messages: ({ id: number; message: string } | { id: number; message: string } | { id: number; message: string } | { id: number; message: string } | { id: number; message: string })[]; dialogs: ({ name: string; id: number } | { name: string; id: number } | { name: string; id: number } | { name: string; id: number } | { name: string; id: number } | { name: string; id: number })[] }; profilePage: { newPostsText: string; posts: ({ likesCount: number; id: number; message: string } | { likesCount: number; id: number; message: string })[] } }) => {
 
+    // индекс тут мы его оборачиваем браузер роутером для того чтобы перемещаться
+    // между компонентами(по страничкам нашего приложения) когда нажимаешь на кнопки
+    //Дальше мы store засовываем в Provider для того чтобы передать пропсы всем последующим компонентам
+    //мы можем не указывать теперь пропсы в других компонентах
+    //но для этого нужно подключать контейнерные компоненты с помощью встроенного метода connect
+
     ReactDOM.render(
         <BrowserRouter>
             <Provider store={store} >

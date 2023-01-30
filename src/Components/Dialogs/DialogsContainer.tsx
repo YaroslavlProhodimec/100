@@ -9,55 +9,25 @@ import {
 
 } from "../../redux/store";
 import {FC} from "react";
-import {SendMessageCreator, updateNewMessageBodyCreator} from "../../redux/dialogs-reduser";
+import {sendMessage, } from "../../redux/dialogs-reduser";
 import Dialogs from "./Dialogs";
 import {connect} from "react-redux";
+import {Redirect} from "react-router-dom";
+import {withAuthRedirect} from "../../hoc/withAuthRedirect";
+import {compose} from "redux";
 
 
-// function DialogsContainer(props: any) {
-//     debugger
-//     return (
-//         <StoreContext.Consumer>
-//             {(store:any) => {
-//                 let state = store.getState().dialogsPage
-//
-//                 let onSendMessageClick = () => {
-//
-//                     store.dispatch(SendMessageCreator());
-//
-//                 }
-//                 let onNewMessageChange = (body: string) => {
-//
-//                   store.dispatch(updateNewMessageBodyCreator(body))
-//
-//                 }
-//      return   <Dialogs updateNewMessageBody={onNewMessageChange}
-//                      sendMessage={onSendMessageClick}
-//                      dialogsPage={state}
-//         />}
-//         }
-//         </StoreContext.Consumer>
-//     )
-// };
 
 let mapStateToProps = (state: any) => {
-   return {
-       dialogsPage: state.dialogsPage
-}}
-let mapDispatchToProps = (dispatch: any) => {
     return {
-        sendMessage: () => {
-            dispatch(SendMessageCreator());
-        },
-
-        updateNewMessageBody: (body: string) => {
-            dispatch(updateNewMessageBodyCreator(body))
-        }
+        dialogsPage: state.dialogsPage,
+        isAuth: state.auth.isAuth
     }
 }
-//connect это то что связывает нас со store  и заменяет его
-//connect нас защищает от знания об store это значит его можно  не приписывать store
 
-const DialogsContainer = connect(mapStateToProps, mapDispatchToProps)(Dialogs);
 
-export default DialogsContainer;
+
+export default compose(
+    connect(mapStateToProps,{sendMessage,} ),
+    withAuthRedirect
+)(Dialogs);

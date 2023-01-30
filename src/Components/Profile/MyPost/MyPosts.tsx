@@ -1,9 +1,9 @@
 import React from 'react';
 import s from "./MyPosts.module.css";
 import Post from "./Post/Post";
-import {PostsType, StateType, } from "../../../redux/store";
-import {addPostCreator, updateNewPostTextCreator} from "../../../redux/profile-reducer";
-
+import {Field, reduxForm} from "redux-form";
+import {maxLengthCreator, required} from "../../../utils/validators/validators";
+import {Textarea} from "../../common/FormsControls/FormsControls";
 
 //
 // export type MyPostsTypeProps = {
@@ -19,47 +19,31 @@ import {addPostCreator, updateNewPostTextCreator} from "../../../redux/profile-r
 //     const bl   a = () => {}
 // return index === 2 ? <></> : <>{'bla bla'}</>) }))
 
-
- const MyPosts = (props: any) => {
-debugger
+const maxLength10 = maxLengthCreator(10)
+const MyPosts = (props: any) => {
+    debugger
     // let state = props.store.getState()
     // let postsElement = props.store.getState().newPostsText
-  let  posts = props.posts
+
+    let posts = props.posts
 
     let postElements =
-       posts.map((p:any) => (<Post
+        posts.map((p: any) => (<Post
                 id={p.id}
                 message={p.message}
                 likesCount={p.likesCount}/>
         ))
 
-    let onAddPost = () => {
-
-    props.addPost()
+    let addNewMessage = (values:any) => {
+        props.addPostCreator(values.updateNewPostText)
     }
-
- let   onPostChange = (e:any) => {
-        debugger
-
-     let text = e.target.value
-         props.updateNewPostText(text);
-         // let action = { type: 'UPDATE-NEW-POST-TEXT',text: text};
-
-
-     }
-
     return <div>
 
         <div className={s.content}>
             <div className={s.my}>My Posts</div>
-            <div><textarea
-                           onChange={onPostChange}
-                           value={props.newPostsText}
-                           className={s.text}></textarea></div>
             <div>
-                <button role="button" className={s.button}
-                        onClick={onAddPost}>
-                    AddPost</button>
+                <AddPostForm onSubmit={addNewMessage}/>
+
             </div>
             <div className={s.new}>New Post</div>
 
@@ -73,5 +57,20 @@ debugger
     </div>
 }
 
-
-    export default MyPosts;
+const AddPost = (props:any) => {
+    return (
+        <form onSubmit={props.handleSubmit}>
+        <div>
+            <Field className={s.text}
+                placeholder='enter'
+                   name='updateNewPostText'
+                   component={Textarea}
+                   validate={[required, maxLength10]}
+            />
+        </div>
+            <button  className={s.button}>Send</button>
+        </form>
+    )
+}
+const AddPostForm = reduxForm({form:"addPost"})(AddPost)
+export default MyPosts;

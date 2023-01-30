@@ -1,6 +1,6 @@
 import React from 'react';
 import s from "./MyPosts.module.css";
-import {addPostCreator, updateNewPostTextCreator} from "../../../redux/profile-reducer";
+import {addPostCreator} from "../../../redux/profile-reducer";
 import MyPosts from "./MyPosts";
 import Post from "./Post/Post";
 import {connect} from "react-redux";
@@ -51,16 +51,16 @@ let mapStateToProps = (state: any) => {
 
 
 }
-let mapDispatchToProps = (dispatch: any) => {
-    return {
-// СНИЗУ ДИСПАТЧИМ ACTION КОТОРЫЫЙ КАК МИНИМУМ ДОЛЖЕН СОДЕРЖАТЬ TYPE
-        addPost: () => {
-            dispatch(addPostCreator())
-        },
-        updateNewPostText: (text:any) =>
-        {dispatch(updateNewPostTextCreator(text))
-        },
-    }
-}
-const MyPostsContainer = connect(mapStateToProps, mapDispatchToProps) (MyPosts);
+// let mapDispatchToProps = (dispatch: any) => {
+//     return {
+// // СНИЗУ ДИСПАТЧИМ ACTION КОТОРЫЫЙ КАК МИНИМУМ ДОЛЖЕН СОДЕРЖАТЬ TYPE
+//         addPost: (updateNewPostText:any) => {
+//             dispatch(addPostCreatorprops.updateNewPostText))
+//         },
+//         updateNewPostText: (text:any) =>
+//         {dispatch(updateNewPostTextCreator(text))
+//         },
+//     }
+// }
+const MyPostsContainer = connect(mapStateToProps, {addPostCreator}) (MyPosts);
 export default MyPostsContainer;

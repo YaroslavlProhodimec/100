@@ -1,5 +1,7 @@
 import Profileinfo from "./Profileinfo/Profileinfo";
 import MyPostsContainer from "./MyPost/MyPostsContainer";
+import {Redirect} from "react-router-dom";
+import * as React from "react";
 
 //
 // export type ProfileTypeProps = {
@@ -9,9 +11,12 @@ import MyPostsContainer from "./MyPost/MyPostsContainer";
 
 const Profile = (props:any) => {
 debugger
+
+
     return (
         <div >
-            <Profileinfo />
+            <Profileinfo profile={props.profile} status={props.status}
+                         updateStatus={props.updateStatus} />
 
             <MyPostsContainer   />
         </div>

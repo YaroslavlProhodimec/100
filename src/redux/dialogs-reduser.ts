@@ -10,7 +10,7 @@ let initialState = {
         {id: 5, message: 'You stupid bitch!!!!'},
 
     ],
-    newMessageBody: 'kamasutra',
+    // newMessageBody: 'kamasutra',
     dialogs: [
         {id: 1, name: 'Dimych'},
         {id: 2, name: 'Andrew'},
@@ -22,28 +22,30 @@ let initialState = {
 }
 
 const dialogsReduser = (state = initialState, action: any) => {
-debugger
 
-    let stateCopy
-    if (action.type === UPDATE_NEW_MESSAGE_BODY) {
-        return {
-            ...state,
-            newMessageBody: action.body
-        }
+switch (action.type)  {
+    // case UPDATE_NEW_MESSAGE_BODY :
+    //     return {
+    //         ...state,
+    //         newMessageBody: action.body
+    //     }
         //stateCopy.newMessageBody = action.body
 
-    } else if (action.type === SEND_MASSAGE) {
-        let body = state.newMessageBody;
+
+    case SEND_MASSAGE:
+        let body = action.updateNewPostText;
       return {
             ...state,
-            newMessageBody: '',
+            // newMessageBody: '',
             messages: [...state.messages, {id: 6, message: body}]
         }
 
 
-    }
+
+    default:
     return state;
 }
-export let SendMessageCreator = () => ({type: SEND_MASSAGE})
-export let updateNewMessageBodyCreator = (body: string) => ({type: UPDATE_NEW_MESSAGE_BODY, body: body})
+}
+export let sendMessage = (updateNewPostText:any) => ({type: SEND_MASSAGE,updateNewPostText})
+
 export default dialogsReduser

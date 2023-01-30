@@ -1,7 +1,12 @@
 import React from 'react';
 import s from "./Profileinfo.module.css";
-const Profileinfo = () =>{
-
+import {Prealoder} from "../../common/Prealoder/Preloader";
+import ProfileStatus from "./ProfileStatus";
+const  Profileinfo = (props:any) =>{
+    // Если у нас не profile то есть у нас нет его
+    if (!props.profile ){
+        return <div ><Prealoder/></div>
+    }
 
     return <div> <div className={s.imgone}>
         <a href="src/Components/Profile">
@@ -35,7 +40,14 @@ const Profileinfo = () =>{
                 src="https://w7.pngwing.com/pngs/56/235/png-transparent-computer-icons-organization-settings-man-computer-logo-desktop-wallpaper-thumbnail.png"
             />
         </div>
-      
+      <div >
+          <img src={props.profile.photos.small} alt=""/>
+
+      </div>
+        <div >
+
+        </div>
+        <div><ProfileStatus status={props.status} updateStatus={props.updateStatus}/></div>
     </div>
 }
 

@@ -8,28 +8,28 @@ import {
     MessageType,
 
 } from "../../redux/store";
+import Login from "../../Login/Login";
+import {Redirect} from "react-router-dom";
+import {Field, reduxForm} from "redux-form";
+import {Textarea} from "../common/FormsControls/FormsControls";
+import {maxLengthCreator, required} from "../../utils/validators/validators";
+import AddMessageForm from "./addMessageForm/AddMessageForm";
 
 
 
-
+const maxLength = maxLengthCreator(10)
 const Dialogs =  (props:any)  => {
     debugger
      let state = props.dialogsPage
 
    let dialogsElement = state.dialogs.map((dialog: any) => <DialogsItem  id={dialog.id} name={dialog.name}  />)
     let messagesElement = state.messages.map((m: any) => <Message message={m.message}  />)
-    let newMessageBody = state.newMessageBody
-    let onSendMessageClick = () => {
-
-        props.sendMessage()
-
-    }
-    let   onNewMessageChange = (e: { target: { value: any; }; }) => {
-        let body = e.target.value;
-    props.updateNewMessageBody(body)
-
+let updateNewPostText = props.dialogsPage
+        let addNewMessage = (values:any) => {
+        props.sendMessage(values.updateNewPostText)
         }
-
+// Если мы не залогинины то указываем условие и ретурнем  редирект
+//      if (!props.isAuth )      return   <Redirect to={"/login"} /> ;
     return (
         <div className={s.wrapper}>
 
@@ -42,14 +42,7 @@ const Dialogs =  (props:any)  => {
 
             </div>
             <div className={s.flex}>
-            <textarea
-                      onChange={onNewMessageChange}
-                      value={state.newMessageBody}
-                      className={s.text} ></textarea>
-            <button role="button"
-                    className={s.button}
-                    onClick={onSendMessageClick}>
-                AddPost</button>
+                <AddMessageForm onSubmit={addNewMessage}/>
             </div>
             <div className={s.message}>
                 {messagesElement}
@@ -61,5 +54,6 @@ const Dialogs =  (props:any)  => {
         </div>
     );
 };
+
 
 export default Dialogs;
