@@ -20,21 +20,22 @@ import {Textarea} from "../../common/FormsControls/FormsControls";
 // return index === 2 ? <></> : <>{'bla bla'}</>) }))
 
 const maxLength10 = maxLengthCreator(10)
-const MyPosts = (props: any) => {
-    debugger
-    // let state = props.store.getState()
-    // let postsElement = props.store.getState().newPostsText
+
+const  MyPosts = React.memo((props: any) => {
 
     let posts = props.posts
 
     let postElements =
-        posts.map((p: any) => (<Post
+        [...posts]
+            .reverse()
+            .map((p: any) => (<Post
+                    key={p.id}
                 id={p.id}
                 message={p.message}
                 likesCount={p.likesCount}/>
         ))
 
-    let addNewMessage = (values:any) => {
+    let addNewMessage = (values: any) => {
         props.addPostCreator(values.updateNewPostText)
     }
     return <div>
@@ -55,7 +56,7 @@ const MyPosts = (props: any) => {
         </div>
 
     </div>
-}
+})
 
 const AddPost = (props:any) => {
     return (

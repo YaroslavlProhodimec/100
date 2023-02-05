@@ -35,9 +35,11 @@ const instance = axios.create({
 // Получается вместо привычного axios....  мы создаём константу внутри которой функции
 // и в этих функциях в параметрах передаём то что мы будем запрашивать у сервера
 export const userAPI = {
-    getUsers(currentPage = 1, pageSize = 10) {
-        return instance.get<getUsersType>(`users?page=${currentPage}&count=${pageSize}`,
-        ).then((response: AxiosResponse) => response.data)
+
+    getUsers(page = 1, pageSize = 10) {
+        debugger
+        return instance.get(`users?page=${page}&count=${pageSize}`,
+        )
     },
    follow(userId:number) {
        return  instance.post(`follow/${userId}`, )
@@ -64,6 +66,18 @@ export const profileAPI = {
     },
     updateStatus(status:any){
         return instance.put(`profile/status`, {status:status})
+    },
+    savePhoto(photoFile:any){
+        const formData = new FormData()
+        formData.append("image", photoFile);
+return instance.put(`profile/photo`, formData,{
+    headers: {
+        'Content-Type': 'multipart/form-data'
+    }
+})
+    },
+    saveProfile(profile:any){
+        return instance.put(`profile`,profile)
     }
 }
 export const authAPI = {
@@ -71,7 +85,7 @@ export const authAPI = {
      return instance.get(`auth/me`, )
   },
     login (email: any,password:any,rememberMe:false) {
-        // @ts-ignore
+
         return instance.post(`auth/login`,{email,password,rememberMe} )
     },
     logout () {

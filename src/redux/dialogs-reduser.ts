@@ -4,13 +4,13 @@ const SEND_MASSAGE = 'SEND_MESSAGE';
 let initialState = {
     messages: [
         {id: 1, message: 'Hi bro'},
-        {id: 2, message: 'Yo dirty talk?'},
-        {id: 3, message: 'Yo bullshit'},
-        {id: 4, message: 'Yo XAXAXAXA'},
-        {id: 5, message: 'You stupid bitch!!!!'},
+        {id: 2, message: 'Yo  ?'},
+        {id: 3, message: 'Yo '},
+        {id: 4, message: 'Yo '},
+        {id: 5, message: 'Hello'},
 
     ],
-    // newMessageBody: 'kamasutra',
+
     dialogs: [
         {id: 1, name: 'Dimych'},
         {id: 2, name: 'Andrew'},

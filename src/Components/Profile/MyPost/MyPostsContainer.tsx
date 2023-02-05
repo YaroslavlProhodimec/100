@@ -1,10 +1,7 @@
 import React from 'react';
-import s from "./MyPosts.module.css";
 import {addPostCreator} from "../../../redux/profile-reducer";
 import MyPosts from "./MyPosts";
-import Post from "./Post/Post";
 import {connect} from "react-redux";
-import Dialogs from "../../Dialogs/Dialogs";
 
 
 // const MyPostsContainer = (props: any) => {

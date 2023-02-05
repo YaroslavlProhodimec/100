@@ -12,8 +12,8 @@ import {
     getFollowingInProgress,
     getIsFetching,
     getPageSize,
-    getTotalUsersCount,
-    getUsersSelector,
+    getTotalUsersCount, getUsersSuper,
+
 } from "../../redux/users-selectoors";
 // Выше делаем прелоодер в него помещаем картинку
 
@@ -24,7 +24,15 @@ import {
 // компоненты от соединения со сторонними серверами
 // у классовых компонентов пропсы это часть обьекта это их свойство короче говоря мы их пишем чере this.props
 class UsersContainer extends React.Component<any, any> {
+    componentDidMount() {
+        let{currentPage,pageSize} = this.props
+        this.props.getUsers(currentPage, pageSize)
+    }
+    onPageChanged = (pageNumber: any) => {
+        const {pageSize} = this.props
+        this.props.getUsers(pageNumber, pageSize)
 
+    }
     //componentDidMount()
     // Это  место для создания сетевых запросов,встроенный метод
     // Делаем запрос через axios.get
@@ -38,9 +46,7 @@ class UsersContainer extends React.Component<any, any> {
     // (response: AxiosResponse) погуглить работа идёт с тайп скриптом
     // {withCredentials : true} добавляем во всю да чтобы сервер знал что мы залогинины
 
-    componentDidMount() {
-     this.props.getUsers(this.props.currentPage, this.props.pageSize)
-    }
+
 
 // выше мы получили с сервера данные они у нас уже отрисованы, ниже мы уже ппросим по методу нашей функции
     // разместить все этих пользователей по страничкам в этом нам помогает наша функция onPageChanged там мы и сопоставляем currentPage
@@ -49,10 +55,7 @@ class UsersContainer extends React.Component<any, any> {
     // что касаемо прогрузочной аниммации описание смотри выше тут мы повторяем те же действия
     //  если посмотреть в верхнем запросе то там используется this.props.currentPage
     // здесь же в нижем запросе необходимо использовать {pageNumber} который нам приходит в праметрах
-    onPageChanged = (pageNumber: any) => {
-        this.props.getUsers(pageNumber, this.props.pageSize)
 
-    }
 
     render() {
 
@@ -81,7 +84,7 @@ class UsersContainer extends React.Component<any, any> {
 
 let mapStateToProps = (state: any) => {
     return {
-        users: getUsersSelector(state),
+        users: getUsersSuper(state),
         pageSize: getPageSize(state),
         totalUsersCount: getTotalUsersCount(state),
         currentPage: getCurrentPage(state),
@@ -90,43 +93,6 @@ let mapStateToProps = (state: any) => {
     }
 
 }
-
-
-// СНИЗУ мы ДИСПАТЧИМ не ACTION а его вызов КОТОРЫЫЙ КАК МИНИМУМ ДОЛЖЕН СОДЕРЖАТЬ TYPE
-// Сделали рефакторинг кода сократили всё
-
-//     return {
-//         followAC: (userId: any) => {
-//             dispatch(followAC(userId))
-//         },
-//         unfollowAC: (userId: any) => { dispatch(unfollowAC(userId))},
-//         setUsers:(users:any) => {
-//             dispatch(setUsers(users))},
-//         setCurrentPages:(currentPage:any) => {
-//             dispatch(setCurrentPages(currentPage))},
-//
-//     setTotalUsersCount:(totalCount:any) => {
-//         dispatch(setTotalUsersCount(totalCount))},
-//         toggleIsFetchingAC:(isFetching:any) => {
-//             dispatch(toggleIsFetchingAC(isFetching))
-//     }
-// }
-
-
-// Это первая контейнерная функция тут передаем пропсы и  функции так же не забываем в app её прописать как контейнерную
-// ЭТО автоматическая функция коннект связывает нас сразу со store
-//указываем в скобках у коннекта пропсы(обьекты) и функции а справа в скобках ту компоненту куда мы хотим это передать
-
-
-// ВНИМАТЕЛЬНО РАНЬШЕ МЫ ДЕЛАЛИ ДЛИННЫЕ ФУНКЦИИ В ТЕЛЕ mapDispatchToProps И ПОМЕЩАЛИ ЕГО ОТ КОННЕКТА СПРАВА В СКОБКИ
-// СЕЙЧАС  ВСЕ ФУНКЦИИ  ОПТСЫВАЕМ ОДНИМ СЛОВОМ ГРУБО ГОВОРЯ ДЕЛАЕМ ССЫЛКУ НА ФУНКЦИИ КОТОРЫЕ СИДЯТ В РЕДЮСЕРЕ
-// И ВСЁ ЧТО ТУТ НИЖЕ УКАЗАНО ДИСПАТЧИТЬСЯ БЕЗ ЗАПИСИ ДИСПАТЧА
-//  короче коннект сам делает это обертывание
-// делаем супер компактную запись смотри выше как они раньше были записаны  followAC: (userId: any) => { dispatch(followAC(userId)) },
-// а сейчас мы просто вставляем в коннект одно слово которое потом будет передаваться  в пропсах
-// это слово должно быть одинаковым с функцией которая в редуксе это возможно с помощью нового синтаксиса
-//таким образом мы избавляемся от диспатча от расписывания функции и пропса и указываем просто такое же название как и у функции как в редуксе
-
 export default compose (connect(mapStateToProps, {
     follow, unfollow,
     setCurrentPages,

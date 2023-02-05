@@ -1,6 +1,5 @@
 import React from 'react';
-import s from "./Profileinfo.module.css";
-import {Prealoder} from "../../common/Prealoder/Preloader";
+
 class ProfileStatus extends React.Component<any, any> {
 
     // statusInputRef = React.createRef()
@@ -24,14 +23,18 @@ class ProfileStatus extends React.Component<any, any> {
         // this.props.updateStatus(this.statusInputRef.current.value)
         this.props.updateStatus(this.state.status)
     }
-    onStatusChange =(e: { currentTarget: { value: any; }; }) => {
+    onStatusChange =(e:any) => {
         this.setState({
-        status: e.currentTarget.value}
+            status: e.currentTarget.value}
         )
     }
-    componentDidUpdate() {
-
-    }
+//     componentDidUpdate(prevProps, prevState) {
+// if(prevProps.status !== this.props.status){
+//     this.setState({
+//         status:this.props.status
+//     })
+// }
+//     }
 
     render() {
         // // Если у нас не profile то есть у нас нет его
@@ -49,8 +52,8 @@ class ProfileStatus extends React.Component<any, any> {
             <div>
                 <input onChange={this.onStatusChange}
                        autoFocus={true}
-                       onBlur={this.deactivateEditMode}
-                       value={this.props.status}/>
+                       onBlur={this.deactivateEditMode.bind(this)}
+                       value={this.state.status}/>
             </div>}
             </div>
         </>)

@@ -33,21 +33,22 @@ const authReducer = (state = initialState, action: any) => {
 export const setAuthUserData = (userId: any, email: any, login: any,isAuth:any) => ({type: SET_USER_DATA,
     payload: {userId, email, login,isAuth}
 })
- export const  getUserData = () => (dispatch:any) => {
-     authAPI.me()
-         .then(response => {
+ export const  getUserData = () => async (dispatch:any) => {
+   let response =  await authAPI.me()
+
     if (response.data.resultCode === 0){
         let {id, login, email, } = response.data.data
         dispatch(setAuthUserData(id,  email, login,true))}
-})}
+}
+
 export const  login = (email:any,password:any,rememberMe:any) => (dispatch:any) => {
     authAPI.login(email,password,rememberMe)
         .then(response => {
             if (response.data.resultCode === 0){
                 dispatch(getUserData())
             }else {
-            let message = response.data.messages.length > 0 ? response.data.messages[0] :"SOME error"
-                dispatch(stopSubmit('login',{_error: message}))
+                let message = response.data.messages.length > 0 ? response.data.messages[0] :"SOME error"
+                dispatch(stopSubmit('edit-profile',{_error: message}))
             }
         })}
 export const  logout = () => (dispatch:any) => {
