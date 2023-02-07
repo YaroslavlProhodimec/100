@@ -40,6 +40,7 @@ class App extends React.Component<any> {
 
         // @ts-ignore
         return (
+
             <div className="app-wrapper">
                 <HeaderContainer/>
                 <Navbar/>
@@ -64,6 +65,7 @@ class App extends React.Component<any> {
                     </Switch>
                 </div>
             </div>
+
         );
     }
 }
