@@ -1,5 +1,5 @@
 import ReactDOM from "react-dom";
-import { HashRouter} from "react-router-dom";
+import {BrowserRouter, HashRouter} from "react-router-dom";
 import App from "./App";
 import "./index.css";
 import store from "./redux/redux-store";
@@ -11,12 +11,12 @@ let rerenderEntireTree = (state: any) => {
 
 
     ReactDOM.render(
-        <HashRouter>
+        <BrowserRouter>
             <Provider store={store} >
 
                 <App/>
             </Provider>
-        </HashRouter>,
+        </BrowserRouter>,
         document.getElementById('root')
     );
 }

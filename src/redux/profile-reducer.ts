@@ -1,5 +1,7 @@
 import {profileAPI, userAPI} from "../api/api";
 import {stopSubmit} from "redux-form";
+import {Simulate} from "react-dom/test-utils";
+import error = Simulate.error;
 
 const ADD_POST = 'ADD_POST';
 // const UPDATE_NEW_POST_TEXT = 'UPDATE_NEW_POST_TEXT';
@@ -50,8 +52,8 @@ default:
             return state;
     }
 }
-    export let addPostCreator = (updateNewPostText:any) => ({type: 'ADD_POST',updateNewPostText})
- let setUserProfile = (profile: any) => ({type: SET_USER_PROFILE, profile})
+export let addPostCreator = (updateNewPostText:any) => ({type: 'ADD_POST',updateNewPostText})
+let setUserProfile = (profile: any) => ({type: SET_USER_PROFILE, profile})
 let setStatus = (status:any) => ({type: SET_STATUS, status})
 let setPhotoSuccess = (photos:any) => ({type: SAVE_PHOTO_SUCCESS, photos})
 export let getUserProfile = (userId: any) => (dispatch:any) => {
@@ -66,11 +68,15 @@ export let getUserStatus = (userId: any) => (dispatch:any) => {
     })
 }
 export let updateStatus = (status: any) => async (dispatch:any) => {
-  let response = await profileAPI.updateStatus(status)
-        if(response.data.resultCode === 0) {
+    try {
+        let response = await profileAPI.updateStatus(status)
+        if (response.data.resultCode === 0) {
             dispatch(setStatus(status));
         }
-
+        catch(error){
+debugger
+        }
+    }
 }
 
 export let savePhoto = (file: any) => async (dispatch:any) => {

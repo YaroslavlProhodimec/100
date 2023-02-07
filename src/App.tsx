@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.css';
 import Navbar from "./Components/Navbar/Navbar";
-import {Route, withRouter} from "react-router-dom";
+import {Redirect, Route, Switch, withRouter} from "react-router-dom";
 // import UsersContainer from "./Components/Users/UsersContainer";
 import HeaderContainer from "./Components/Header/HeaderContainer";
 import Login from "./Login/Login";
@@ -21,10 +21,18 @@ const ProfileContainer = React.lazy(() => import("./Components/Profile/ProfileCo
 const UsersContainer = React.lazy(() => import("./Components/Users/UsersContainer"))
 
 class App extends React.Component<any> {
-    componentDidMount() {
-        this.props.initializeApp()
+    catchAllUnhandledErrors = (promiseRejectionEvent:any) => {
+        alert('some error')
+        console.error(promiseRejectionEvent)
     }
 
+    componentDidMount() {
+        this.props.initializeApp()
+        window.addEventListener("unhandledrejection", this.catchAllUnhandledErrors )
+    }
+       componentWillUnmount(){
+    window.addEventListener("unhandledrejection", this.catchAllUnhandledErrors )
+}
     render() {
         if (!this.props.initialized) {
    return <Prealoder/>
@@ -36,6 +44,9 @@ class App extends React.Component<any> {
                 <HeaderContainer/>
                 <Navbar/>
                 <div className="app-wrapper-content">
+                    <Switch>
+                        <Route exact path='/'
+                               render={ () => <Redirect to={'/profile'} /> } />
                     <Route path="/dialogs/"
                            render={() => {return <React.Suspense fallback={<Prealoder/>}>
                                <DialogsContainer/>
@@ -48,6 +59,9 @@ class App extends React.Component<any> {
                     <Route path='/login'
                            render={() =>
                                <Login/>}/>
+                        <Route path='*'
+                               render={() => <div>Not found</div>} />
+                    </Switch>
                 </div>
             </div>
         );
